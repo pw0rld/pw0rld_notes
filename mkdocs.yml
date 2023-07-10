@@ -1,0 +1,92 @@
+site_name: My Docs
+theme:
+  features:
+  - navigation.tabs
+  - navigation.tabs.sticky
+  - search.suggest
+  - search.highlight
+  - search.share
+  - content.code.annotate
+  font:
+    code: Source Code Pro
+    text: Noto Sans
+  icon:
+    repo: fontawesome/brands/github-alt
+  language: zh
+  logo: static/image.jpg
+  name: material
+  palette:
+  - accent: red
+    primary: teal
+    scheme: default
+    toggle:
+      icon: material/toggle-switch-off-outline
+      name: Switch to dark mode
+  - accent: red
+    primary: red
+    scheme: slate
+    toggle:
+      icon: material/toggle-switch
+      name: Switch to light mode
+
+extra_javascript:
+  - 'js/cnzz-statistics.js'
+  - "https://polyfill.io/v3/polyfill.min.js?features=es6"
+  - "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+
+markdown_extensions:
+- abbr
+- attr_list
+- admonition
+- md_in_html
+- codehilite:
+    guess_lang: false
+    linenums: true
+- def_list
+- footnotes
+- meta
+- toc:
+    permalink: '*'
+- pymdownx.arithmatex:
+    generic: true
+- pymdownx.caret
+- pymdownx.critic
+- pymdownx.details
+  #- pymdownx.emoji:
+  #emoji_generator: !!python/name:materialx.emoji.to_svg ''
+  #emoji_index: !!python/name:materialx.emoji.twemoji ''
+- pymdownx.highlight
+- pymdownx.inlinehilite
+- pymdownx.snippets
+- pymdownx.keys
+- pymdownx.magiclink
+- pymdownx.mark
+- pymdownx.smartsymbols
+- pymdownx.tabbed:
+    alternate_style: true
+- pymdownx.superfences:
+    custom_fences:
+    - class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format ''
+      name: mermaid
+- pymdownx.betterem:
+    smart_enable: all
+- pymdownx.tasklist:
+    custom_checkbox: true
+- pymdownx.tilde
+
+plugins:
+  - search
+    #- git-revision-date-localized
+extra:
+  search:
+    language: 'ja'
+nav:
+- TEE:
+  - Tee/index.md
+  - Tee/SEV-Memory-Secure.md
+- OS:
+  - Os/index.md
+
+- Security:
+   - security/index.md

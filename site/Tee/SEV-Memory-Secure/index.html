@@ -1,0 +1,840 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../Os/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>SEV Memory Secure - My Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#related-work" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="My Docs" class="md-header__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  <img src="../../static/image.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            My Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SEV Memory Secure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="red"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
+        TEE
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Os/" class="md-tabs__link">
+        OS
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../security/" class="md-tabs__link">
+        Security
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="My Docs" class="md-nav__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  <img src="../../static/image.jpg" alt="logo">
+
+    </a>
+    My Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          TEE
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          TEE
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        TEE 论文note
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          SEV Memory Secure
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        SEV Memory Secure
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#related-work" class="md-nav__link">
+    Related work
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation" class="md-nav__link">
+    Evaluation
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shellcode" class="md-nav__link">
+    怎么执行shellcode？怎么定位触发？
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    Notes
+  </a>
+  
+    <nav class="md-nav" aria-label="Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tee-attack" class="md-nav__link">
+    TEE Attack碎碎念
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xe" class="md-nav__link">
+    推到XE的过程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tweak-value" class="md-nav__link">
+    计算Tweak Value
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          OS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          OS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Os/" class="md-nav__link">
+        OS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        Security
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#related-work" class="md-nav__link">
+    Related work
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation" class="md-nav__link">
+    Evaluation
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shellcode" class="md-nav__link">
+    怎么执行shellcode？怎么定位触发？
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    Notes
+  </a>
+  
+    <nav class="md-nav" aria-label="Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tee-attack" class="md-nav__link">
+    TEE Attack碎碎念
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xe" class="md-nav__link">
+    推到XE的过程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tweak-value" class="md-nav__link">
+    计算Tweak Value
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>SEV Memory Secure</h1>
+
+<table>
+<thead>
+<tr>
+<th><strong>论文名称</strong></th>
+<th>Secure Encrypted Virtualization is Unsecure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BIB</td>
+<td>@article{DuZhaohui2017SecureEV, title={Secure Encrypted Virtualization is Unsecure}, author={Du Zhaohui and Ying Zhiwei and Ma Zhenke and Mai Yufei and Phoebe Wang and Jesse Liu and Jesse Fang}, journal={arXiv: Cryptography and Security}, year={2017} }</td>
+</tr>
+<tr>
+<td><strong>Tag</strong></td>
+<td>Security , Programming ,Cryptography,Tee</td>
+</tr>
+</tbody>
+</table>
+<h2 id="related-work"><strong>Related work</strong><a class="headerlink" href="#related-work" title="Permanent link">*</a></h2>
+<blockquote>
+<p>这篇论文总结的相关工作</p>
+</blockquote>
+<p>这篇论文总结了一些SEV关于内存上的一些漏洞点。</p>
+<ul>
+<li>SEV Guest VM缺少内存完整性保护，意味着hypervisor可以修改cipher-texts来注入恶意命令来攻击VM，这也是本文的攻击的基础。</li>
+<li><a href="https://arxiv.org/pdf/1612.01119.pdf"><Security Analysis of Encrypted Virtual Machines></a>证明了可以对VM发起重放攻击，也就是说hypervisor能够使用过去的数据来覆盖新的内存数据</li>
+<li>虚拟机启动之后，虚拟机的加密密钥VEK(VM Encryption Key)一直持续到虚拟机关闭</li>
+<li>nested page table由hypervisor维护，因此hypervisor可以随时修改NTP表</li>
+<li>由于SEV使用physical address-based tweak是基于host的物理地址而不是VM的的物理地址，这就导致hypervisor可以通过计算来交换不同VM的加密页表，VM也能成功解密，但是数据都被交换了。(这个也有相关工作研究)</li>
+<li>后续还有一篇工作是介绍AES-XEX的暴力破解</li>
+</ul>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">*</a></h2>
+<blockquote>
+<p>写完全部之后再填写，概况文章的内容，以后查阅笔记的时候，先看这一段。
+在写summary的时候切记需要通过自己的思考，用自己的语言描述，切忌Ctrl+C 原文</p>
+</blockquote>
+<p>这篇论文是第一篇证明2017年SEV的内存加密模式不安全,推导出了AES-XE的tweak value，根据tweak value来计算加密之后的恶意shellcode，注入恶意的shellcode到SEV VM里面从而达到攻击。</p>
+<h2 id="_1"><a class="headerlink" href="#_1" title="Permanent link">*</a></h2>
+<h2 id="evaluation">Evaluation<a class="headerlink" href="#evaluation" title="Permanent link">*</a></h2>
+<blockquote>
+<p>作者如何实现自己的方法？实验是怎么进行的？有没有问题以及有没有值得借鉴的地方？</p>
+</blockquote>
+<p>首先作者先进行了两个实验用来判断当前SEV使用了什么类型的加密方式。</p>
+<p>第一个实验是通过写入等差序列(arithmetic sequence)到同一物理地址，启动C bit加密，观察密文序列。
+采用NIST. Statistical Test Suite.来验证密文序列是采用ECB模式而不是CTR。</p>
+<p>第二个实验就是将同一密文(cipher-texts)写入到不同的物理地址，发现输出的明文和物理地址成线性关系
+使用相同密文经过多次实验，获得大量类似如下格式的数据</p>
+<p><strong><cipher-texts, physical addresses, plaintexts></strong></p>
+<p>这样一个表，通过计算公式</p>
+<p><span class="arithmatex">\(T(x)=⊕_{x_i=1}t_i其中xi是x的第i位，⊕是异或，t_i是tweak的值\)</span>
+对于明文<span class="arithmatex">\(m_1\)</span>在地址<span class="arithmatex">\(p_1\)</span>和明文<span class="arithmatex">\(m_2\)</span>在地址<span class="arithmatex">\(p_2\)</span>，可以等价于<span class="arithmatex">\(m_1⊕T(P_1) = m_2 ⊕T(P_2) 或者m_2=m_1⊕T(p_1⊕p_2)\)</span>
+计算输出，得到tweak value。</p>
+<p>在得到全部的tweak value之后，我们就能够修改VM中任意地址的cipher-texts，这也为我们的注入提供的先决条件。</p>
+<p>在得到tweak value之后，作者使用sshd程序，计算tweak value来向对应的位置注入shellcode。</p>
+<h3 id="shellcode">怎么执行shellcode？怎么定位触发？<a class="headerlink" href="#shellcode" title="Permanent link">*</a></h3>
+<p>TODO</p>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">*</a></h2>
+<blockquote>
+<p>有什么自己需要记录的，没有可以不写</p>
+</blockquote>
+<h3 id="tee-attack">TEE Attack碎碎念<a class="headerlink" href="#tee-attack" title="Permanent link">*</a></h3>
+<p>一般而言，针对TEE框架，攻击者拥有很强大的权限，譬如攻击者可以修改os kernel，中断TEE程序以及重启服务器。在这样的威胁模型下，诞生出了基于进程的TEE，SGX；基于虚拟化的SEV和CSV。</p>
+<p>无论是基于进程和基于虚拟化，都存在内存加密方案，在SGX上，攻击者上不被允许修改内存，因为内存是基于页表做了隔离，host无法访问哪块内存;在低版本的SEV中，譬如SEV1、SEV-es，攻击者能够修改和读取TEE VM的密文内存，但是在SEV-SNP上由于增加了完整性的保护，所以攻击者没办法修改密文。</p>
+<p>本文是第一篇针对SEV内存加密方案的分析，通过对相同明文加密，获取密文，比较密文的规律性，最后推导出SEV内存加密的模式，计算出模式的Tweak value。(本文作者是来自致象尔微电子公司，查了一下好像是海光的子公司，估计当初海光购买了AMD架构，也在整自己的TEE方案，于是乎后来就诞生出了CSV方案，CSV方案我也研究过，和SEV的相差非常大，等论文出来了，再详细介绍CSV。)</p>
+<h3 id="xe">推到XE的过程<a class="headerlink" href="#xe" title="Permanent link">*</a></h3>
+<p>假设存在明文<span class="arithmatex">\(m_1在地址p_1上计算会得到密文c_1\)</span>，公式如下：</p>
+<p><span class="arithmatex">\(m_1 \xrightarrow[]{Enc+p_1}  c_1 = E(m_1 \oplus T(p_1))\)</span></p>
+<p>若攻击者将密文<span class="arithmatex">\(c_1\)</span>放到地址<span class="arithmatex">\(p_2\)</span>去解密，解密函数如下：</p>
+<p><span class="arithmatex">\(c_1^1 \xrightarrow[]{Dec+p_2}  m_1^1 = D[E(m_1 \oplus T(p_1))]  \oplus T(p_2) = m_1 \oplus T(p_1) \oplus T(p_2)\)</span></p>
+<p>重复此操作，将<span class="arithmatex">\(m_2的密文c_2放到p_1解密，得到\)</span></p>
+<p><span class="arithmatex">\(c_2^1 \xrightarrow[]{Dec+p_1}  m_2^1 = D[E(m_2 \oplus T(p_1))]  \oplus T(p_2) = m_2 \oplus T(p_1) \oplus T(p_2)\)</span></p>
+<p>此时，将<span class="arithmatex">\(c_1^1 \oplus c_2^1 = m_2 \oplus m_2\)</span> 若等式相等，即可证明使用AES-XE模式。</p>
+<h3 id="tweak-value">计算Tweak Value<a class="headerlink" href="#tweak-value" title="Permanent link">*</a></h3>
+<p>回到上面的推到，T(t)在加密过程中至关重要，回到加解密的操作中，不妨设c为密文，将c解密的公式为，不妨将整个page的密文都改成c，然后送去解密，其中</p>
+<p>$c  \xrightarrow[]{Dec+p_i}  m = D&copy; \oplus T(p_i) $</p>
+<p>此时，我们收集不同地址解密的明文，回归定义，<span class="arithmatex">\(T(x) = \oplus_{bit(i)}t_i，其中bit(i)为物理地址p的第i位，t_i为\)</span> tweak value的值，在SEV的实现中，tweak function是对16byte密文进行计算，所以bit 0-3是不会被考虑进去，实现上为0</p>
+<p>如果我们将物理地址控制，比如从<span class="arithmatex">\(t_4开始，想要计算t_4，将p的bit 4位设置为0 和 1，然后在异或消去解密的字符串，这样就可以得到t_4\)</span>.</p>
+<p>举个例子，对于地址</p>
+<p><code>0x1234000</code> 其bit位如下：<code>0b1001000110100000000000000</code>,<span class="arithmatex">\(T(x) = \oplus_{bit(i)}t_i\)</span></p>
+<p><code>0x1234010</code> 其bit位如下：<code>0b1001000110100000000010000</code>,<span class="arithmatex">\(T(x) = \oplus_{bit(i)}t_i\)</span></p>
+<p>解密相同密文</p>
+<p><span class="arithmatex">\(c \xrightarrow[]{Dec+0x1234000}  m_0 = D(c) \oplus T(0x1234000)\)</span></p>
+<p><span class="arithmatex">\(c \xrightarrow[]{Dec+0x1234010}  m_1 = D(c) \oplus T(0x1234010)\)</span></p>
+<p>将<span class="arithmatex">\(m_0 \oplus m_1 = T(0x1234000) \oplus T(0x1234010)\)</span>, 由于只有bit 4不一样，其他bit完全一样，所以可以通过<span class="arithmatex">\(\oplus\)</span>得到<span class="arithmatex">\(t_4\)</span>的值，如果要计算往后，则bit向后推即可</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">*</a></h2>
+<blockquote>
+<p>作者的结论是什么？哪些是作者确定的结论？哪些是作者也不确定的结论？</p>
+</blockquote>
+<p>研究SEV的SME方案，最终得出，SEV—SME使用AES-XE模式，该模式及其容易推导出tweak value，从而让攻击者利用tweak value进行注入恶意攻击shellcode</p>
+<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">*</a></h2>
+<blockquote>
+<p>作者解决问题的方法是什么？是否基于前人的方法进行优化？</p>
+</blockquote>
+<p>观察明密文，得出加密模式规律，利用加密规律去计算并注入恶意shellcode。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "search.suggest", "search.highlight", "search.share", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../js/cnzz-statistics.js"></script>
+        
+      
+        
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
+      
+        
+          <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        
+      
+    
+  </body>
+</html>
